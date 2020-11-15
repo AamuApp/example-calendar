@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="icon" type="image/png" href="https://cdn0.iconfinder.com/data/icons/expenses-vs-income/30/__donation_social_care_calendar_heart-512.png"/>
+	<style type="text/css">
+
+
+	body, input, button {
+		font-family: sans-serif;
+	}
+
+	form {
+		width: 350px;
+	}
+
+	form div {
+		margin: 40px 0;
+	}
+
+	form input, form button {
+		box-sizing: border-box;
+		width: 100%;
+		padding: 15px 5px;
+	}
+
+	form label {
+		display: block;
+		margin-bottom: 5px
+	}
+
+	form button:hover {
+		background: #5ad;
+	}
+	form button {
+		transition: 0.3s background;
+		font-weight: bold;
+		margin: auto;
+		width: 50%;
+		display: block;
+		background: #49c;
+		color: #fff;
+		border-radius: 3px;
+		border: none;
+		box-shadow: 0 0 6px #0002
+
+	}
+
+
+	table {
+		font-size: 16px;
+	  border-spacing: 1;
+	  border-collapse: collapse;
+	  background: white;
+	  border-radius: 6px;
+	  overflow: hidden;
+	  max-width: 800px;
+	  width: 100%;
+	  margin: 20px auto;
+	  position: relative;
+	}
+	table td, table th {
+	  padding-left: 8px;
+	}
+	table thead tr {
+	  height: 60px;
+	  background: #eee;
+	  font-size: 16px;
+	}
+	table tbody tr {
+	  height: 48px;
+	  border-bottom: 1px solid #E3F1D5;
+	}
+	table tbody tr:last-child {
+	  border: 0;
+	}
+	table td, table th {
+	  text-align: left;
+	}
+
+
+
+	</style>	
+</head>
+<body>
+	<div style="display: flex; margin: 100px auto; max-width: 900px">
+		<div style="margin-right: 100px; flex-grow: 1">
+			<table>
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Start time</th>
+					</tr>
+				</thead>
+				<tbody id="data">
+				</tbody>				
+			</table>
+		</div>
+		<form id="ajaxForm" action="https://ile.aamu.app/api/v1/forms/eded8769-d22a-468c-850d-9e22aa71c590" method="POST">
+			<h2>Add a calendar entry</h2>
+			<div>
+				<label for=”form_title”>Title</label>
+				<input placeholder="Title" type="text" name="title" id=”form_title”>
+			</div>
+			<div>
+				<label for=”form_startTime”>Start time</label>
+				<input placeholder="Start time" type="datetime-local" name="startTime" id=”form_startTime”>
+				<input type="hidden" name="startTime.timezone">
+			</div>
+			<button type="submit">Send</button>
+		</form>
+	</div>
+
+	<!--  Remove this if you don't want AJAX -->
+	<script type="text/javascript">
+		var oldData = [];
+
+		function getLanguage(){
+			return navigator.userLanguage || (navigator.languages && navigator.languages.length && navigator.languages[0]) || navigator.language || navigator.browserLanguage || navigator.systemLanguage || 'en';
+		}
+
+		function handleData(data) {
+			const dataElement = document.getElementById('data');
+
+			function addRow(data) {
+				var tr = document.createElement('tr');
+				var td = document.createElement('td');
+				td.innerHTML = data.title;
+				tr.appendChild(td)
+				var td = document.createElement('td');
+				td.innerHTML = new Date(data.startTime).toLocaleString(getLanguage());
+				tr.appendChild(td);
+				dataElement.appendChild(tr);
+			}
+
+			if (data && data.Sheet1Collection && data.Sheet1Collection.length) {
+				dataElement.innerHTML = '';
+
+				if (data.Sheet1Collection.length != oldData.length) {
+					data.Sheet1Collection.forEach(d => {
+						addRow(d);					
+					});
+				}
+			}
+		}
+
+		function getData() {
+			fetch('https://api.aamu.app/api/v1/graphql/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'x-api-key': 'b83a52cd2c6f4c07b561927916e7eb7d-214c473f8f954fe94214ca89fe57b1e6'
+				},
+				body: JSON.stringify({ query: `
+					{
+					  Sheet1Collection(sort: { startTime: DESC }) {
+					    id
+					    created
+					    updated
+					    title
+					    startTime
+					  }
+					}
+				`})
+			})
+			.then(r => r.json())
+			.then(data => handleData(data.data))
+			.catch(err => console.log(err))
+		}
+
+		function addTimezoneInfo() {
+			const form = document.getElementById('ajaxForm');
+
+			if (form) {
+				var els = form.querySelectorAll('input[type=datetime-local]');
+
+				els.forEach(function (el) {
+					if (typeof Intl != 'undefined') {
+						form.querySelectorAll('input[type="hidden"][name="' + el.getAttribute('name') + '.timezone"]').forEach(function (el) {
+							el.setAttribute('value', Intl.DateTimeFormat().resolvedOptions().timeZone);
+						});
+					}
+
+					form.querySelectorAll('input[type="hidden"][name="' + el.getAttribute('name') + '.timezoneoffset"]').forEach(function (el) {
+						el.setAttribute('value', new Date().getTimezoneOffset());
+					});
+				});
+			}
+		}
+
+		function submit(e) {
+			e.preventDefault();
+			const body = new FormData(this);
+
+			fetch(this.action, {
+				body: body,
+				method: "post"
+			}).then((response) => {
+				return response.json();
+			}).then((data) => {
+				console.log(data);
+
+				if (data.success) {
+					getData();
+				}
+			});
+		}
+
+		getData();
+		setInterval(getData, 1000 * 10);
+		addTimezoneInfo();
+		document.getElementById('ajaxForm').addEventListener('submit', submit);
+	</script>
+
+	</body>
+</html>
