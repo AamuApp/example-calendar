@@ -78,12 +78,24 @@
 	  text-align: left;
 	}
 
-
-
+	.error  {
+		border: solid 1px #e99;
+		border-radius: 3px;
+		display: none;
+		margin: 10px auto;
+		padding: 1em 2em;
+		color: #e66;
+		background: #fffcfc;
+		font-weight: bold;
+	}
 	</style>	
 </head>
 <body>
-	<div style="display: flex; margin: 100px auto; max-width: 900px">
+	<div style="margin: 100px auto 0 auto; max-width: 900px">
+		<div class="error" id="form-endpoint-missing">Form endpoint is missing. Please enable forms in your Aamu.app database's settings</div>
+		<div class="error" id="api-key-missing">API key is missing. Please enable API in your Aamu.app database's settings</div>
+	</div>
+	<div style="display: flex; margin: auto; max-width: 900px">
 		<div style="margin-right: 100px; flex-grow: 1">
 			<table>
 				<thead>
@@ -96,7 +108,7 @@
 				</tbody>				
 			</table>
 		</div>
-		<form id="ajaxForm" action="https://ile.aamu.app/api/v1/forms/eded8769-d22a-468c-850d-9e22aa71c590" method="POST">
+		<form id="ajaxForm" action="" method="POST">
 			<h2>Add a calendar entry</h2>
 			<div>
 				<label for=”form_title”>Title</label>
@@ -113,7 +125,26 @@
 
 	<!--  Remove this if you don't want AJAX -->
 	<script type="text/javascript">
+
+		// Set these!
+		const API_KEY = '';
+		const FORM_ENDPOINT = '';
+
 		var oldData = [];
+
+		function setAndCheckApiKeys() {
+			if (!FORM_ENDPOINT) {
+				document.getElementById('form-endpoint-missing').style.display = 'block';
+			}
+			else
+			{
+				document.getElementById('ajaxForm').setAttribute('action', FORM_ENDPOINT);
+			}
+
+			if (!API_KEY) {
+				document.getElementById('api-key-missing').style.display = 'block';
+			}
+		}
 
 		function getLanguage(){
 			return navigator.userLanguage || (navigator.languages && navigator.languages.length && navigator.languages[0]) || navigator.language || navigator.browserLanguage || navigator.systemLanguage || 'en';
@@ -150,7 +181,7 @@
 				headers: {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'x-api-key': 'b83a52cd2c6f4c07b561927916e7eb7d-214c473f8f954fe94214ca89fe57b1e6'
+					'x-api-key': API_KEY
 				},
 				body: JSON.stringify({ query: `
 					{
@@ -207,6 +238,7 @@
 			});
 		}
 
+		setAndCheckApiKeys();
 		getData();
 		setInterval(getData, 1000 * 10);
 		addTimezoneInfo();
