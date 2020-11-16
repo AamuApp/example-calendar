@@ -1,5 +1,7 @@
 # example-calendar
 
+This is the simplest possible example that shows how to do single page applications with [Aamu.app](https://aamu.app/). In particular, this uses the GraphQL API and the forms feature.
+
 ![image](https://user-images.githubusercontent.com/433707/99201888-d3bee900-27b5-11eb-8ff0-62d2daf9bb66.png)
 
 
