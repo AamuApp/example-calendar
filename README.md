@@ -1,5 +1,8 @@
 # example-calendar
 
+![image](https://user-images.githubusercontent.com/433707/99201888-d3bee900-27b5-11eb-8ff0-62d2daf9bb66.png)
+
+
 Install and run:
 
 ```
