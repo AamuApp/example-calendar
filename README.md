@@ -21,7 +21,7 @@ npm i
 npm start
 ```
 
-3. Set API key and Forms Endpoint
+3. Set API key and Forms Endpoint (index.html)
 
 ![image](https://user-images.githubusercontent.com/433707/99198216-d0206780-279f-11eb-8617-e9fccb45f89c.png)
 
