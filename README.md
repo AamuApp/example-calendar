@@ -1,13 +1,13 @@
-# example-calendar
+# Aamu.app Calendar example
 
-This is the simplest possible example that shows how to do single page applications with [Aamu.app](https://aamu.app/). In particular, this uses the GraphQL API and the forms feature.
+This is the simplest possible example to demonstrate how to do single page applications with [Aamu.app](https://aamu.app/). In particular, this uses the GraphQL API and the forms feature.
 
 It looks like this. Did I mention it's simple?
 
 ![image](https://user-images.githubusercontent.com/433707/99201888-d3bee900-27b5-11eb-8ff0-62d2daf9bb66.png)
 
 
-Install and run:
+## Installation
 
 1. Create the database from the Calendar template ![image](https://user-images.githubusercontent.com/433707/110987678-1d8c9a00-8378-11eb-8fb1-4c23b3854804.png)
 
