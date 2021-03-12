@@ -9,6 +9,10 @@ It looks like this. Did I mention it's simple?
 
 Install and run:
 
+1. Create the database from the Calendar template ![image](https://user-images.githubusercontent.com/433707/110987678-1d8c9a00-8378-11eb-8fb1-4c23b3854804.png)
+
+2. Install code
+
 ```
 git clone https://github.com/AamuApp/example-calendar.git
 cd example-calendar
@@ -17,7 +21,7 @@ npm i
 npm start
 ```
 
-Remember to set the Forms Endpoint and API KEY in index.html:
+3. Set API key and Forms Endpoint
 
 ![image](https://user-images.githubusercontent.com/433707/99198216-d0206780-279f-11eb-8617-e9fccb45f89c.png)
 
