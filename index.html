@@ -4,94 +4,92 @@
 	<title></title>
 	<link rel="icon" type="image/png" href="https://cdn0.iconfinder.com/data/icons/expenses-vs-income/30/__donation_social_care_calendar_heart-512.png"/>
 	<style type="text/css">
+		body, input, button {
+			font-family: sans-serif;
+		}
 
-	body, input, button {
-		font-family: sans-serif;
-	}
+		form {
+			width: 350px;
+		}
 
-	form {
-		width: 350px;
-	}
+		form div {
+			margin: 40px 0;
+		}
 
-	form div {
-		margin: 40px 0;
-	}
+		form input, form button {
+			box-sizing: border-box;
+			width: 100%;
+			padding: 15px 5px;
+		}
 
-	form input, form button {
-		box-sizing: border-box;
-		width: 100%;
-		padding: 15px 5px;
-	}
+		form label {
+			display: block;
+			margin-bottom: 5px
+		}
 
-	form label {
-		display: block;
-		margin-bottom: 5px
-	}
+		form button:hover {
+			background: #5ad;
+		}
 
-	form button:hover {
-		background: #5ad;
-	}
+		form button {
+			transition: 0.3s background;
+			font-weight: bold;
+			margin: auto;
+			width: 50%;
+			display: block;
+			background: #49c;
+			color: #fff;
+			border-radius: 3px;
+			border: none;
+			box-shadow: 0 0 6px #0002
+		}
 
-	form button {
-		transition: 0.3s background;
-		font-weight: bold;
-		margin: auto;
-		width: 50%;
-		display: block;
-		background: #49c;
-		color: #fff;
-		border-radius: 3px;
-		border: none;
-		box-shadow: 0 0 6px #0002
-	}
+		table {
+			font-size: 16px;
+			border-spacing: 1;
+			border-collapse: collapse;
+			background: white;
+			border-radius: 6px;
+			overflow: hidden;
+			max-width: 800px;
+			width: 100%;
+			margin: 20px auto;
+			position: relative;
+		}
 
-	table {
-		font-size: 16px;
-		border-spacing: 1;
-		border-collapse: collapse;
-		background: white;
-		border-radius: 6px;
-		overflow: hidden;
-		max-width: 800px;
-		width: 100%;
-		margin: 20px auto;
-		position: relative;
-	}
+		table td, table th {
+			padding-left: 8px;
+		}
 
-	table td, table th {
-		padding-left: 8px;
-	}
+		table thead tr {
+			height: 60px;
+			background: #eee;
+			font-size: 16px;
+		}
 
-	table thead tr {
-		height: 60px;
-		background: #eee;
-		font-size: 16px;
-	}
+		table tbody tr {
+			height: 48px;
+			border-bottom: 1px solid #E3F1D5;
+		}
 
-	table tbody tr {
-		height: 48px;
-		border-bottom: 1px solid #E3F1D5;
-	}
+		table tbody tr:last-child {
+			border: 0;
+		}
 
-	table tbody tr:last-child {
-		border: 0;
-	}
+		table td, table th {
+			text-align: left;
+		}
 
-	table td, table th {
-		text-align: left;
-	}
-
-	.error  {
-		border: solid 1px #e99;
-		border-radius: 3px;
-		display: none;
-		margin: 10px auto;
-		padding: 1em 2em;
-		color: #e66;
-		background: #fffcfc;
-		font-weight: bold;
-	}
-
+		.error  {
+			border: solid 1px #e99;
+			border-radius: 3px;
+			display: none;
+			margin: 10px auto;
+			padding: 1em 2em;
+			color: #e66;
+			background: #fffcfc;
+			font-weight: bold;
+		}
 	</style>	
 </head>
 <body>
