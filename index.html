@@ -111,7 +111,7 @@
 			</table>
 		</div>
 
-		<form id="ajaxForm" action="https://ile.aamu.app/api/v1/forms/bb04d7ca-c17f-47b1-99c1-26ed2e0966c9" method="POST" enctype="multipart/form-data" >
+		<form id="ajaxForm" action="" method="POST" enctype="multipart/form-data" >
 			<h2>Add a calendar entry</h2>
 			<div>
 				<label for="form_title">Title</label>
@@ -138,8 +138,8 @@
 	<script type="text/javascript">
 
 		// Set these!
-		const API_KEY = '79a9cf7f37b14f35950d241cc43afef3-126dd20614a19be768f8baa3aab5e530';
-		const FORM_ENDPOINT = 'https://ile.aamu.app/api/v1/forms/bb04d7ca-c17f-47b1-99c1-26ed2e0966c9';
+		const API_KEY = '';
+		const FORM_ENDPOINT = '';
 
 		var oldData = [];
 
@@ -187,7 +187,7 @@
 		}
 
 		function getData() {
-			fetch('https://ile.aamu.app/api/v1/graphql/', {
+			fetch('https://api.aamu.app/api/v1/graphql/', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
