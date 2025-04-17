@@ -81,21 +81,18 @@
 		}
 
 		.error  {
-			border: solid 1px #e99;
-			border-radius: 3px;
-			display: none;
+			border: solid 1px rgb(240, 183, 183);
+			border-radius: 8px;
 			margin: 10px auto;
 			padding: 1em 2em;
 			color: #e66;
-			background: #fffcfc;
+			background: #fff7f7;
 			font-weight: bold;
 		}
 	</style>	
 </head>
 <body>
-	<div style="margin: 100px auto 0 auto; max-width: 900px">
-		<div class="error" id="form-endpoint-missing">Form endpoint is missing. Please enable forms in your Aamu.app database's settings</div>
-		<div class="error" id="api-key-missing">API key is missing. Please enable API in your Aamu.app database's settings</div>
+	<div style="margin: 100px auto 0 auto; max-width: 900px" id="errors">
 	</div>
 	<div style="display: flex; margin: auto; max-width: 900px">
 		<div style="margin-right: 100px; flex-grow: 1">
@@ -111,7 +108,7 @@
 			</table>
 		</div>
 
-		<form id="ajaxForm" action="" method="POST" enctype="multipart/form-data" >
+		<form id="calendarForm" action="" method="POST" enctype="multipart/form-data" >
 			<h2>Add a calendar entry</h2>
 			<div>
 				<label for="form_title">Title</label>
@@ -130,23 +127,30 @@
 	<script type="text/javascript">
 
 		// Set these!
-		const API_KEY = '98a96a2a024f419c93fb494f4e64917a-5f180817c58cfd01603fc18c04e1b7d4';
-		const FORM_ENDPOINT = 'https://api.aamu.app/api/v1/db/6935a779-38cf-4bef-81cd-6c910783e0f6';
+		const API_KEY = '';
+		const FORM_ENDPOINT = '';
 
 		var oldData = [];
 
 		function setAndCheckApiKeys() {
 			if (!FORM_ENDPOINT) {
-				document.getElementById('form-endpoint-missing').style.display = 'block';
+				setError("Form endpoint is missing. Please enable forms in your Aamu.app database's settings");
 			}
 			else
 			{
-				document.getElementById('ajaxForm').setAttribute('action', FORM_ENDPOINT);
+				document.getElementById('calendarForm').setAttribute('action', FORM_ENDPOINT);
 			}
 
 			if (!API_KEY) {
-				document.getElementById('api-key-missing').style.display = 'block';
+				setError("API key is missing. Please enable API in your Aamu.app database's settings");
 			}
+		}
+
+		function setError(error) {
+			const div = document.createElement('div');
+			div.className = 'error';
+			div.innerHTML = error.toString();
+			document.getElementById('errors').appendChild(div);
 		}
 
 		function getLanguage(){
@@ -190,8 +194,8 @@
 					{
 					  Sheet1Collection(sort: { startTime: DESC }) {
 					    id
-					    created
-					    updated
+					    created_at
+					    updated_at
 					    title
 					    startTime
 					  }
@@ -199,12 +203,22 @@
 				`})
 			})
 			.then(r => r.json())
-			.then(data => handleData(data.data))
-			.catch(err => console.log(err))
+			.then(data => {
+				console.log(data);
+				if (data?.errors) {
+					data.errors.forEach(e => setError(e.message))
+				}
+				handleData(data.data)
+			})
+			.catch(err => {
+				console.log('Error:')
+				console.log(data)
+				console.log(err)
+			})
 		}
 
 		function addTimezoneInfo() {
-			const form = document.getElementById('ajaxForm');
+			const form = document.getElementById('calendarForm');
 
 			if (form) {
 				var els = form.querySelectorAll('input[type=datetime-local]');
@@ -226,9 +240,13 @@
 		function submit(e) {
 			e.preventDefault();
 			const body = new FormData(this);
+	
+			for (const [k, v] of body.entries()) {
+				console.log({k, v});
+			}
 
 			fetch(this.action, {
-				body: body,
+				body,
 				method: "post"
 			}).then((response) => {
 				return response.json();
@@ -237,15 +255,31 @@
 
 				if (data.success) {
 					getData();
+				} else {
+					if (data?.msg) {
+						setError(data.msg)
+					} else {
+						setError('Unknown error.')
+					}
 				}
+			}).catch((err) => {
+				console.error(err);
+				setError(err);
 			});
 		}
 
+		// Setup the form - set API key and form action
 		setAndCheckApiKeys();
+
+		// Get current data from the calendar (database)
 		getData();
 		// setInterval(getData, 1000 * 10);
+
+		// We want to send the timezone info when we submit the form
 		addTimezoneInfo();
-		document.getElementById('ajaxForm').addEventListener('submit', submit);
+
+		// Setup form submit listener to submit the form on the client side
+		document.getElementById('calendarForm').addEventListener('submit', submit);
 	</script>
 
 	</body>
