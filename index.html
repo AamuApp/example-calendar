@@ -6,6 +6,7 @@
 	<style type="text/css">
 		body, input, button {
 			font-family: sans-serif;
+			line-height: 1.6;
 		}
 
 		form {
@@ -94,7 +95,12 @@
 <body>
 	<div style="margin: 100px auto 0 auto; max-width: 900px" id="errors">
 	</div>
+	<div style="margin: auto; max-width: 900px">
+		<p>This is an example app which uses Aamu.app's database.</p>
+		<p>You should have the database created, and then go to the database settings — in there you should enable forms, get the Forms Endpoint and enter it into <em>FORM_ENDPOINT</em> in this html file. You should also generate the GraphQL API key in the database settings and enter it into <em>API_KEY</em>.</p>
+	</div>
 	<div style="display: flex; margin: auto; max-width: 900px">
+		
 		<div style="margin-right: 100px; flex-grow: 1">
 			<table>
 				<thead>
